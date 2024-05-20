@@ -10,7 +10,7 @@ import json
 
 def PlaceList(request):
     queryset = Place.objects.all()
-    context = list(queryset.values('id', 'name', 'dateTime'))
+    context = list(queryset.values('id', 'name'))
     return JsonResponse(context, safe=False)
 
 def PlaceCreate(request):
@@ -21,3 +21,11 @@ def PlaceCreate(request):
         place.name = data_json['name']
         place.save()
         return HttpResponse("successfully created place")
+
+def verificar_place(request, place_id):
+ 
+    try:
+        place = Place.objects.get(pk=place_id)
+        return JsonResponse({'status': 'exists', 'place': {'id': place.id, 'name': place.name, 'location': place.location}}, status=200)
+    except Place.DoesNotExist:
+        return JsonResponse({'status': 'not_found'}, status=404)
