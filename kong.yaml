@@ -25,7 +25,7 @@ services:
     routes:
       - name: places
         paths:
-          - /places
+          - /places/check
         strip_path: false
     
 upstreams:
